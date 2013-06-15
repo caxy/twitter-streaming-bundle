@@ -1,0 +1,7 @@
+parameters:
+#    bangpound_twitter_streaming.example.class: Bangpound\Twitter\StreamingBundle\Example
+
+services:
+#    bangpound_twitter_streaming.example:
+#        class: %bangpound_twitter_streaming.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

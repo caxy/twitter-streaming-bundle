@@ -1,0 +1,20 @@
+{
+    "name": "bangpound/twitter-streaming-bundle",
+    "description": "Entities and admin controllers for streaming API parameters",
+    "autoload": {
+        "psr-0": {
+            "Bangpound\\Twitter\\StreamingBundle\\": ""
+        }
+    },
+    "require": {
+        "sonata-project/admin-bundle": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Benjamin Doherty",
+            "email": "bjd@bangpound.org"
+        }
+    ],
+    "target-dir": "Bangpound/Twitter/StreamingBundle"
+}
