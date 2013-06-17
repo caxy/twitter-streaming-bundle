@@ -92,4 +92,9 @@ class Track
         return $this->phrase;
     }
 
+    public function __toString()
+    {
+        return (string) $this->getPhrase();
+    }
+
 }
