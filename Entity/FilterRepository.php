@@ -17,7 +17,7 @@ class FilterRepository extends EntityRepository
     public function findActiveLocations()
     {
         $result = $this->getEntityManager()
-            ->createQuery('SELECT t.south,t.west,t.north,t.east FROM BangpoundTwitterStreamingBundle:Location t WHERE t.isActive = true')
+            ->createQuery('SELECT t.west,t.south,t.east,t.north FROM BangpoundTwitterStreamingBundle:Location t WHERE t.isActive = true')
             ->getScalarResult();
         return array_map('array_values', $result);
     }
