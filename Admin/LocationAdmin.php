@@ -18,13 +18,14 @@ class LocationAdmin extends Admin
             ->add('west')
             ->add('north')
             ->add('east')
-            ->add('is_active', 'checkbox', array('required' => false))
+            ->add('isActive', 'checkbox', array('required' => false))
         ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('isActive')
         ;
     }
 
@@ -36,6 +37,7 @@ class LocationAdmin extends Admin
             ->add('west')
             ->add('north')
             ->add('east')
+            ->add('isActive')
         ;
     }
 }

@@ -15,13 +15,14 @@ class FollowAdmin extends Admin
     {
         $formMapper
             ->add('user_id', 'text')
-            ->add('is_active', 'checkbox', array('required' => false))
+            ->add('isActive', 'checkbox', array('required' => false))
         ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('isActive')
         ;
     }
 
@@ -29,7 +30,7 @@ class FollowAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('user_id')
-            ->add('is_active')
+            ->add('isActive')
         ;
     }
 }

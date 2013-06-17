@@ -15,13 +15,15 @@ class TrackAdmin extends Admin
     {
         $formMapper
             ->add('phrase')
-            ->add('is_active', 'checkbox', array('required' => false))
+            ->add('isActive', 'checkbox', array('required' => false))
         ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
+            ->add('phrase')
+            ->add('isActive')
         ;
     }
 
@@ -29,7 +31,7 @@ class TrackAdmin extends Admin
     {
         $listMapper
             ->addIdentifier('phrase')
-            ->add('is_active')
+            ->add('isActive')
         ;
     }
 }
