@@ -6,7 +6,7 @@ services:
         arguments:
             - ~
             - Bangpound\Twitter\StreamingBundle\Entity\Location
-            - 'SonataAdminBundle:CRUD'
+            - 'BangpoundTwitterStreamingBundle:CRUD'
 
     bangpound_twitter_streaming.admin.track:
         class: Bangpound\Twitter\StreamingBundle\Admin\TrackAdmin
@@ -15,7 +15,7 @@ services:
         arguments:
             - ~
             - Bangpound\Twitter\StreamingBundle\Entity\Track
-            - 'SonataAdminBundle:CRUD'
+            - 'BangpoundTwitterStreamingBundle:CRUD'
 
     bangpound_twitter_streaming.admin.follow:
         class: Bangpound\Twitter\StreamingBundle\Admin\FollowAdmin
@@ -24,4 +24,4 @@ services:
         arguments:
             - ~
             - Bangpound\Twitter\StreamingBundle\Entity\Follow
-            - 'SonataAdminBundle:CRUD'
+            - 'BangpoundTwitterStreamingBundle:CRUD'

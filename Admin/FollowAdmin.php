@@ -2,14 +2,11 @@
 
 namespace Bangpound\Twitter\StreamingBundle\Admin;
 
-use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Knp\Menu\ItemInterface;
-use Sonata\AdminBundle\Admin\AdminInterface;
 
-class FollowAdmin extends Admin
+class FollowAdmin extends FilterAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {

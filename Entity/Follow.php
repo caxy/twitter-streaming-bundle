@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table("follow")
  * @ORM\Entity(repositoryClass="Bangpound\Twitter\StreamingBundle\Entity\FilterRepository")
  */
-class Follow
+class Follow implements FilterInterface
 {
     /**
      * @var integer
