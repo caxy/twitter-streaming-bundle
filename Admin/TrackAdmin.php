@@ -28,7 +28,7 @@ class TrackAdmin extends FilterAdmin
     {
         $listMapper
             ->addIdentifier('phrase')
-            ->add('isActive')
+            ->add('isActive', null, array('editable' => true))
         ;
     }
 }

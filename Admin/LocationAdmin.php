@@ -34,7 +34,7 @@ class LocationAdmin extends FilterAdmin
             ->add('west')
             ->add('north')
             ->add('east')
-            ->add('isActive')
+            ->add('isActive', null, array('editable' => true))
         ;
     }
 }

@@ -27,7 +27,7 @@ class FollowAdmin extends FilterAdmin
     {
         $listMapper
             ->addIdentifier('user_id')
-            ->add('isActive')
+            ->add('isActive', null, array('editable' => true))
         ;
     }
 }
