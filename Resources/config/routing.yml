@@ -1,3 +1,0 @@
-bangpound_twitter_streaming_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: BangpoundTwitterStreamingBundle:Default:index }
