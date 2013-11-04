@@ -1,5 +1,5 @@
 parameters:
-     bangpound_twitter_streaming.db.table_prefix: twitter_streaming__
+    bangpound_twitter_streaming.db.table_prefix: twitter_streaming__
     bangpound_twitter_streaming.consumer.notification.class: Bangpound\Bundle\TwitterStreamingBundle\Consumer\PhirehoseConsumer
     bangpound_twitter_streaming.stream.class: Bangpound\Bundle\TwitterStreamingBundle\Stream\RshiefStream
     bangpound_twitter_streaming.stream.notify.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamNotifySubscriber

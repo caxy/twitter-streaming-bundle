@@ -2,6 +2,7 @@
 
 namespace Bangpound\Bundle\TwitterStreamingBundle;
 
+use Bangpound\Bundle\TwitterStreamingBundle\DependencyInjection\Compiler\NotificationAdminCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class BangpoundTwitterStreamingBundle extends Bundle
