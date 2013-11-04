@@ -1,5 +1,11 @@
 parameters:
      bangpound_twitter_streaming.db.table_prefix: twitter_streaming__
+    bangpound_twitter_streaming.consumer.notification.class: Bangpound\Bundle\TwitterStreamingBundle\Consumer\PhirehoseConsumer
+    bangpound_twitter_streaming.stream.class: Bangpound\Bundle\TwitterStreamingBundle\Stream\RshiefStream
+    bangpound_twitter_streaming.stream.notify.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamNotifySubscriber
+    bangpound_twitter_streaming.stream.logger.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamLoggerSubscriber
+    bangpound_twitter_streaming.persistent_atom_entry.class: Bangpound\Bundle\TwitterStreamingBundle\CouchDocument\AtomEntry
+    bangpound_twitter_streaming.stream.notify.type: 'twitter_data.tweet'
 
 services:
     bangpound_twitter_streaming.tblprefix_subscriber:
@@ -7,3 +13,38 @@ services:
         arguments: [%bangpound_twitter_streaming.db.table_prefix%]
         tags:
             - { name: doctrine.event_subscriber }
+
+    bangpound_twitter_streaming.stream:
+        class: %bangpound_twitter_streaming.stream.class%
+        arguments:
+            - %bangpound_phirehose.oauth_token%
+            - %bangpound_phirehose.oauth_secret%
+            - 'filter'
+            - 'json'
+        calls:
+            - [setContainer, ["@service_container"]]
+            - [setBackend, ["@sonata.notification.backend"]]
+        properties:
+            consumerKey: %bangpound_phirehose.twitter_consumer_key%
+            consumerSecret: %bangpound_phirehose.twitter_consumer_secret%
+
+    bangpound_twitter_streaming.consumer.notification:
+        class: %bangpound_twitter_streaming.consumer.notification.class%
+        tags:
+            - { name: sonata.notification.consumer, type: twitter_data.tweet }
+        arguments: [ '@doctrine_couchdb.odm.document_manager', '@jms_serializer', %bangpound_twitter_streaming.persistent_atom_entry.class% ]
+        calls:
+            - [ setLogger, [ @logger ] ]
+
+    bangpound_twitter_streaming.stream.notify:
+        class: %bangpound_twitter_streaming.stream.notify.class%
+        arguments: [ "@sonata.notification.backend", %bangpound_twitter_streaming.stream.notify.type% ]
+        tags:
+            - { name: bangpound_phirehose.event_subscriber }
+
+    bangpound_twitter_streaming.stream.logger:
+        class: %bangpound_twitter_streaming.stream.logger.class%
+        arguments: [ '@logger', '@database_connection' ]
+        tags:
+            - { name: bangpound_phirehose.event_subscriber }
+            - { name: monolog.logger, channel: twitter_data }

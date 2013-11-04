@@ -17,5 +17,5 @@
             "email": "bjd@bangpound.org"
         }
     ],
-    "target-dir": "Bangpound/Twitter/StreamingBundle"
+    "target-dir": "Bangpound/Bundle/TwitterStreamingBundle"
 }
