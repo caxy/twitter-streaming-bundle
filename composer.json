@@ -3,10 +3,11 @@
     "description": "Entities and admin controllers for streaming API parameters",
     "autoload": {
         "psr-0": {
-            "Bangpound\\Twitter\\StreamingBundle\\": ""
+            "Bangpound\\Bundle\\TwitterStreamingBundle\\": ""
         }
     },
     "require": {
+        "bangpound/phirehose-bundle": "dev-master",
         "sonata-project/admin-bundle": "dev-master"
     },
     "license": "MIT",

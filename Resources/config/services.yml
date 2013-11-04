@@ -3,7 +3,7 @@ parameters:
 
 services:
     bangpound_twitter_streaming.tblprefix_subscriber:
-        class: Bangpound\Twitter\StreamingBundle\Subscriber\TablePrefixSubscriber
+        class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\TablePrefixSubscriber
         arguments: [%bangpound_twitter_streaming.db.table_prefix%]
         tags:
             - { name: doctrine.event_subscriber }

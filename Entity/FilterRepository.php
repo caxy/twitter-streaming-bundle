@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\Entity;
+namespace Bangpound\Bundle\TwitterStreamingBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

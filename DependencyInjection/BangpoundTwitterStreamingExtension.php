@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\DependencyInjection;
+namespace Bangpound\Bundle\TwitterStreamingBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

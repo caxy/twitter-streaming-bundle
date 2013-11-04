@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\DependencyInjection;
+namespace Bangpound\Bundle\TwitterStreamingBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,5 +1,5 @@
 <?php
-namespace Bangpound\Twitter\StreamingBundle\Subscriber;
+namespace Bangpound\Bundle\TwitterStreamingBundle\Subscriber;
 
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
@@ -23,7 +23,7 @@ class TablePrefixSubscriber implements EventSubscriber
     {
         $classMetadata = $args->getClassMetadata();
 
-        if (FALSE !== strpos($classMetadata->namespace, 'Bangpound\Twitter\StreamingBundle\Entity')) {
+        if (FALSE !== strpos($classMetadata->namespace, 'Bangpound\Bundle\TwitterStreamingBundle\Entity')) {
             $classMetadata->setPrimaryTable(array('name' => $this->prefix . $classMetadata->getTableName()));
 
             foreach ($classMetadata->getAssociationMappings() as $fieldName => $mapping) {

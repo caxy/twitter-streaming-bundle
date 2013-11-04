@@ -1,12 +1,12 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\Controller;
+namespace Bangpound\Bundle\TwitterStreamingBundle\Controller;
 
 use Sonata\AdminBundle\Controller\CRUDController as BaseController;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Bangpound\Twitter\StreamingBundle\Entity\FilterInterface;
+use Bangpound\Bundle\TwitterStreamingBundle\Entity\FilterInterface;
 
 class CRUDController extends BaseController
 {

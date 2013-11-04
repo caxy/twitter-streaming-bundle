@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\Admin;
+namespace Bangpound\Bundle\TwitterStreamingBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle;
+namespace Bangpound\Bundle\TwitterStreamingBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bangpound\Twitter\StreamingBundle\Entity;
+namespace Bangpound\Bundle\TwitterStreamingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Follow
  *
  * @ORM\Table("follow")
- * @ORM\Entity(repositoryClass="Bangpound\Twitter\StreamingBundle\Entity\FilterRepository")
+ * @ORM\Entity(repositoryClass="Bangpound\Bundle\TwitterStreamingBundle\Entity\FilterRepository")
  */
 class Follow implements FilterInterface
 {

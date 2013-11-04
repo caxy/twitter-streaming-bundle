@@ -1,27 +1,27 @@
 services:
     bangpound_twitter_streaming.admin.location:
-        class: Bangpound\Twitter\StreamingBundle\Admin\LocationAdmin
+        class: Bangpound\Bundle\TwitterStreamingBundle\Admin\LocationAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: Twitter, label: Location }
         arguments:
             - ~
-            - Bangpound\Twitter\StreamingBundle\Entity\Location
+            - Bangpound\Bundle\TwitterStreamingBundle\Entity\Location
             - 'BangpoundTwitterStreamingBundle:CRUD'
 
     bangpound_twitter_streaming.admin.track:
-        class: Bangpound\Twitter\StreamingBundle\Admin\TrackAdmin
+        class: Bangpound\Bundle\TwitterStreamingBundle\Admin\TrackAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: Twitter, label: Track }
         arguments:
             - ~
-            - Bangpound\Twitter\StreamingBundle\Entity\Track
+            - Bangpound\Bundle\TwitterStreamingBundle\Entity\Track
             - 'BangpoundTwitterStreamingBundle:CRUD'
 
     bangpound_twitter_streaming.admin.follow:
-        class: Bangpound\Twitter\StreamingBundle\Admin\FollowAdmin
+        class: Bangpound\Bundle\TwitterStreamingBundle\Admin\FollowAdmin
         tags:
             - { name: sonata.admin, manager_type: orm, group: Twitter, label: Follow }
         arguments:
             - ~
-            - Bangpound\Twitter\StreamingBundle\Entity\Follow
+            - Bangpound\Bundle\TwitterStreamingBundle\Entity\Follow
             - 'BangpoundTwitterStreamingBundle:CRUD'
