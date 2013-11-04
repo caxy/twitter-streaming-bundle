@@ -6,9 +6,17 @@
             "Bangpound\\Bundle\\TwitterStreamingBundle\\": ""
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/bangpound/SonataNotificationBundle.git"
+        }
+    ],
     "require": {
+        "symfony/dependency-injection": "~2.3",
         "bangpound/phirehose-bundle": "dev-master",
-        "sonata-project/admin-bundle": "dev-master"
+        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/notification-bundle": "dev-patch-1"
     },
     "license": "MIT",
     "authors": [
@@ -17,5 +25,6 @@
             "email": "bjd@bangpound.org"
         }
     ],
+    "minimum-stability": "dev",
     "target-dir": "Bangpound/Bundle/TwitterStreamingBundle"
 }
