@@ -143,6 +143,11 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $link->setRel('canonical');
         $entry->addLink($link);
 
+        $link = new LinkType();
+        $link->setHref(strtr($data['user']['profile_image_url'], ['_normal' => '']));
+        $link->setRel('author thumbnail');
+        $entry->addLink($link);
+
         $entry->setPublished($created_at);
 
         $source = new SourceType();
