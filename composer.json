@@ -6,12 +6,6 @@
             "Bangpound\\Bundle\\TwitterStreamingBundle\\": ""
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/bangpound/SonataNotificationBundle.git"
-        }
-    ],
     "require": {
         "symfony/dependency-injection": "~2.3",
         "bangpound/phirehose-bundle": "dev-master",
