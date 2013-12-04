@@ -32,10 +32,8 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
     private $objectManager;
     private $serializer;
     private $jsonOptions;
-    private $maxUnitOfWorkSize;
     private $atomEntryClass;
     private $logger;
-    private $count;
 
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
@@ -43,13 +41,11 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
      * @param $atomEntryClass
      * @param int $maxUnitOfWorkSize
      */
-    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass, $maxUnitOfWorkSize = 100)
+    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass)
     {
         $this->objectManager = $objectManager;
         $this->serializer = $serializer;
         $this->atomEntryClass = $atomEntryClass;
-        $this->maxUnitOfWorkSize = $maxUnitOfWorkSize;
-        $this->count = 0;
         $this->jsonOptions = (PHP_INT_SIZE < 8 && version_compare(PHP_VERSION, '5.4.0', '>=')) ? JSON_BIGINT_AS_STRING : 0;
     }
 
@@ -160,12 +156,7 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $entry->setLang($data['lang']);
 
         $this->objectManager->persist($entry);
-        $this->count++;
-
-        if ($this->count >= $this->maxUnitOfWorkSize) {
-            $this->objectManager->flush();
-            $this->objectManager->clear();
-            $this->count = 0;
-        }
+        $this->objectManager->flush();
+        $this->objectManager->clear();
     }
 }
