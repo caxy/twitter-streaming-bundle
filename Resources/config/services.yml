@@ -1,6 +1,7 @@
 parameters:
     bangpound_twitter_streaming.db.table_prefix: twitter_streaming__
     bangpound_twitter_streaming.consumer.notification.class: Bangpound\Bundle\TwitterStreamingBundle\Consumer\PhirehoseConsumer
+    bangpound_twitter_streaming.consumer.notification.max_unit_of_work_size: 100
     bangpound_twitter_streaming.stream.class: Bangpound\Bundle\TwitterStreamingBundle\Stream\RshiefStream
     bangpound_twitter_streaming.stream.notify.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamNotifySubscriber
     bangpound_twitter_streaming.stream.logger.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamLoggerSubscriber
@@ -32,7 +33,7 @@ services:
         class: %bangpound_twitter_streaming.consumer.notification.class%
         tags:
             - { name: sonata.notification.consumer, type: twitter_data.tweet }
-        arguments: [ '@doctrine_couchdb.odm.document_manager', '@jms_serializer', %bangpound_twitter_streaming.persistent_atom_entry.class% ]
+        arguments: [ @doctrine_couchdb.odm.document_manager, @jms_serializer, %bangpound_twitter_streaming.persistent_atom_entry.class%, %bangpound_twitter_streaming.consumer.notification.max_unit_of_work_size% ]
         calls:
             - [ setLogger, [ @logger ] ]
 

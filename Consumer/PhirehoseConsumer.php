@@ -32,18 +32,24 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
     private $objectManager;
     private $serializer;
     private $jsonOptions;
+    private $maxUnitOfWorkSize;
+    private $atomEntryClass;
     private $logger;
+    private $count;
 
     /**
      * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
-     * @param \JMS\Serializer\SerializerInterface        $serializer
+     * @param \JMS\Serializer\SerializerInterface $serializer
      * @param $atomEntryClass
+     * @param int $maxUnitOfWorkSize
      */
-    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass)
+    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass, $maxUnitOfWorkSize = 100)
     {
         $this->objectManager = $objectManager;
         $this->serializer = $serializer;
         $this->atomEntryClass = $atomEntryClass;
+        $this->maxUnitOfWorkSize = $maxUnitOfWorkSize;
+        $this->count = 0;
         $this->jsonOptions = (PHP_INT_SIZE < 8 && version_compare(PHP_VERSION, '5.4.0', '>=')) ? JSON_BIGINT_AS_STRING : 0;
     }
 
@@ -75,11 +81,6 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $tweet_path = $data['user']['screen_name'].'/status/'. $data['id_str'];
 
         $id = 'tag:twitter.com,'. $created_at->format('Y-m-d') .':/'. $tweet_path;
-        $existing = $repository->findOneBy(['id' => $id]);
-        if ($existing) {
-            $this->logger->info(sprintf('Duplicate tweet sent for %s from %s', $id, $data['user']['screen_name']), ['existing' => $existing, 'new' => $data]);
-            return;
-        }
 
         $entry = new $this->atomEntryClass;
         $entry->setId($id);
@@ -159,7 +160,12 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $entry->setLang($data['lang']);
 
         $this->objectManager->persist($entry);
-        $this->objectManager->flush();
-        $this->objectManager->clear();
+        $this->count++;
+
+        if ($this->count >= $this->maxUnitOfWorkSize) {
+            $this->objectManager->flush();
+            $this->objectManager->clear();
+            $this->count = 0;
+        }
     }
 }
