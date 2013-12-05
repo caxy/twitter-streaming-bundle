@@ -51,6 +51,7 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $this->maxUnitOfWorkSize = $maxUnitOfWorkSize;
         $this->count = 0;
         $this->jsonOptions = (PHP_INT_SIZE < 8 && version_compare(PHP_VERSION, '5.4.0', '>=')) ? JSON_BIGINT_AS_STRING : 0;
+        register_shutdown_function(array($this, 'shutdown'));
     }
 
     /**
@@ -69,6 +70,10 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
      */
     public function process(ConsumerEvent $event)
     {
+        pcntl_signal(SIGINT, [ $this, 'signalHandler' ]);
+        pcntl_signal(SIGHUP, [ $this, 'signalHandler' ]);
+        pcntl_signal(SIGTERM, [ $this, 'signalHandler' ]);
+
         /* @var $message Message */
         $message = $event->getMessage();
 
@@ -167,5 +172,15 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
             $this->objectManager->clear();
             $this->count = 0;
         }
+        pcntl_signal_dispatch();
+    }
+
+    public function shutdown() {
+        $this->objectManager->flush();
+        $this->objectManager->clear();
+    }
+
+    protected function signalHandler($signal) {
+        exit;
     }
 }
