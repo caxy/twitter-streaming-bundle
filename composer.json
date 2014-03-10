@@ -10,7 +10,7 @@
         "ext-pcntl": "*",
         "symfony/dependency-injection": "~2.3",
         "bangpound/phirehose-bundle": "~1.0",
-        "sonata-project/admin-bundle": "dev-master",
+        "sonata-project/admin-bundle": "~2.2",
         "sonata-project/notification-bundle": "dev-master"
     },
     "license": "MIT",
