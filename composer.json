@@ -2,7 +2,7 @@
     "name": "bangpound/twitter-streaming-bundle",
     "description": "Entities and admin controllers for streaming API parameters",
     "autoload": {
-        "psr-0": {
+        "psr-4": {
             "Bangpound\\Bundle\\TwitterStreamingBundle\\": ""
         }
     },
@@ -20,6 +20,5 @@
             "email": "bjd@bangpound.org"
         }
     ],
-    "minimum-stability": "dev",
-    "target-dir": "Bangpound/Bundle/TwitterStreamingBundle"
+    "minimum-stability": "dev"
 }
