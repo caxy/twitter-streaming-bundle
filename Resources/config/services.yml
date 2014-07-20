@@ -7,6 +7,7 @@ parameters:
     bangpound_twitter_streaming.stream.logger.class: Bangpound\Bundle\TwitterStreamingBundle\Subscriber\StreamLoggerSubscriber
     bangpound_twitter_streaming.persistent_atom_entry.class: Bangpound\Bundle\TwitterStreamingBundle\CouchDocument\AtomEntry
     bangpound_twitter_streaming.stream.notify.type: 'twitter_data.tweet'
+    bangpound_twitter_streaming.listener.flush.class: Bangpound\Bundle\TwitterStreamingBundle\EventListener\FlushEntityManagerListener
 
 services:
     bangpound_twitter_streaming.tblprefix_subscriber:
@@ -24,22 +25,19 @@ services:
             - 'json'
         calls:
             - [setContainer, ["@service_container"]]
-            - [setBackend, ["@sonata.notification.backend"]]
         properties:
             consumerKey: %bangpound_phirehose.twitter_consumer_key%
             consumerSecret: %bangpound_phirehose.twitter_consumer_secret%
 
     bangpound_twitter_streaming.consumer.notification:
         class: %bangpound_twitter_streaming.consumer.notification.class%
-        tags:
-            - { name: sonata.notification.consumer, type: twitter_data.tweet }
-        arguments: [ @doctrine_couchdb.odm.document_manager, @jms_serializer, %bangpound_twitter_streaming.persistent_atom_entry.class%, %bangpound_twitter_streaming.consumer.notification.max_unit_of_work_size% ]
+        arguments: [ @doctrine_couchdb.odm.document_manager, @jms_serializer, %bangpound_twitter_streaming.persistent_atom_entry.class% ]
         calls:
             - [ setLogger, [ @logger ] ]
 
     bangpound_twitter_streaming.stream.notify:
         class: %bangpound_twitter_streaming.stream.notify.class%
-        arguments: [ "@sonata.notification.backend", %bangpound_twitter_streaming.stream.notify.type% ]
+        arguments: [ @old_sound_rabbit_mq.twitter_producer, %bangpound_twitter_streaming.stream.notify.type% ]
         tags:
             - { name: bangpound_phirehose.event_subscriber }
 
@@ -49,3 +47,9 @@ services:
         tags:
             - { name: bangpound_phirehose.event_subscriber }
             - { name: monolog.logger, channel: twitter_data }
+
+    bangpound_twitter_streaming.listener.flush:
+        class: %bangpound_twitter_streaming.listener.flush.class%
+        arguments: [ @doctrine_couchdb.odm.document_manager, 'twitter' ]
+        tags:
+            - { name: kernel.event_listener, event: console.terminate, method: onConsoleTerminate }

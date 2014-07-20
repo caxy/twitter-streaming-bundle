@@ -7,20 +7,13 @@ use Bangpound\Atom\DataBundle\CouchDocument\LinkType;
 use Bangpound\Atom\DataBundle\CouchDocument\PersonType;
 use Bangpound\Atom\DataBundle\CouchDocument\SourceType;
 use Bangpound\Atom\DataBundle\CouchDocument\TextType;
-use Bangpound\Twitter\DataBundle\Entity\Tweet;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\CouchDB\Attachment;
-use Doctrine\ODM\CouchDB\Types\BooleanType;
-use Doctrine\ODM\CouchDB\Types\MixedType;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerInterface;
+use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
-use Rshief\PubsubBundle\CouchDocument\AtomEntry;
-use Sonata\NotificationBundle\Consumer\ConsumerEvent;
-use Sonata\NotificationBundle\Consumer\ConsumerInterface;
-use Sonata\NotificationBundle\Model\Message;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 
 /**
  * Class PhirehoseConsumer
@@ -32,26 +25,20 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
     private $objectManager;
     private $serializer;
     private $jsonOptions;
-    private $maxUnitOfWorkSize;
     private $atomEntryClass;
     private $logger;
-    private $count;
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $objectManager
-     * @param \JMS\Serializer\SerializerInterface $serializer
-     * @param $atomEntryClass
-     * @param int $maxUnitOfWorkSize
+     * @param ObjectManager       $objectManager
+     * @param SerializerInterface $serializer
+     * @param string              $atomEntryClass
      */
-    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass, $maxUnitOfWorkSize = 100)
+    public function __construct(ObjectManager $objectManager, SerializerInterface $serializer, $atomEntryClass)
     {
         $this->objectManager = $objectManager;
         $this->serializer = $serializer;
         $this->atomEntryClass = $atomEntryClass;
-        $this->maxUnitOfWorkSize = $maxUnitOfWorkSize;
-        $this->count = 0;
         $this->jsonOptions = (PHP_INT_SIZE < 8 && version_compare(PHP_VERSION, '5.4.0', '>=')) ? JSON_BIGINT_AS_STRING : 0;
-        register_shutdown_function(array($this, 'shutdown'));
     }
 
     /**
@@ -68,28 +55,19 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ConsumerEvent $event)
+    public function execute(AMQPMessage $msg)
     {
-        pcntl_signal(SIGINT, [ $this, 'signalHandler' ]);
-        pcntl_signal(SIGHUP, [ $this, 'signalHandler' ]);
-        pcntl_signal(SIGTERM, [ $this, 'signalHandler' ]);
-
-        /* @var $message Message */
-        $message = $event->getMessage();
-
-        /** @var \Doctrine\Common\Persistence\ObjectRepository $repository */
-        $repository = $this->objectManager->getRepository($this->atomEntryClass);
-
-        $data = json_decode($message->getValue('tweet'), true, 512, $this->jsonOptions);
+        $data = json_decode($msg->body, true, 512, $this->jsonOptions);
 
         $created_at = \DateTime::createFromFormat('D M j H:i:s P Y', $data['created_at']);
         $tweet_path = $data['user']['screen_name'].'/status/'. $data['id_str'];
 
         $id = 'tag:twitter.com,'. $created_at->format('Y-m-d') .':/'. $tweet_path;
 
+        /** @var \Bangpound\Bundle\TwitterStreamingBundle\CouchDocument\AtomEntry $entry */
         $entry = new $this->atomEntryClass;
         $entry->setId($id);
-        $entry->setOriginalData($message->getValue('tweet'), 'application/json');
+        $entry->setOriginalData($msg->body, 'application/json');
 
         $title = new TextType();
         $title->setText($data['text']);
@@ -123,8 +101,7 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
                 $link->setHref($url['expanded_url']);
                 if (substr_compare($url['expanded_url'], $url['display_url'], -strlen($url['display_url']), strlen($url['display_url'])) === 0) {
                     $link->setRel('shortlink');
-                }
-                else {
+                } else {
                     $link->setRel('nofollow');
                 }
                 $entry->addLink($link);
@@ -165,22 +142,7 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
         $entry->setLang($data['lang']);
 
         $this->objectManager->persist($entry);
-        $this->count++;
 
-        if ($this->count >= $this->maxUnitOfWorkSize) {
-            $this->objectManager->flush();
-            $this->objectManager->clear();
-            $this->count = 0;
-        }
-        pcntl_signal_dispatch();
-    }
-
-    public function shutdown() {
-        $this->objectManager->flush();
-        $this->objectManager->clear();
-    }
-
-    protected function signalHandler($signal) {
-        exit;
+        return ConsumerInterface::MSG_ACK;
     }
 }

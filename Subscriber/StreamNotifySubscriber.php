@@ -4,18 +4,18 @@ namespace Bangpound\Bundle\TwitterStreamingBundle\Subscriber;
 
 use Bangpound\PhirehoseBundle\Event\StreamMessageEvent;
 use Bangpound\PhirehoseBundle\PhirehoseEvents;
-use Sonata\NotificationBundle\Backend\BackendInterface;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class StreamNotifySubscriber implements EventSubscriberInterface
 {
-    private $backend;
-    private $type;
+    private $producer;
+    private $routingKey;
 
-    public function __construct(BackendInterface $backend, $type)
+    public function __construct(Producer $producer, $type)
     {
-        $this->backend = $backend;
-        $this->type = $type;
+        $this->producer = $producer;
+        $this->routingKey = $type;
     }
 
     public static function getSubscribedEvents()
@@ -27,7 +27,6 @@ class StreamNotifySubscriber implements EventSubscriberInterface
 
     public function onTweet(StreamMessageEvent $event)
     {
-        $body = array('tweet' => $event->getMessage());
-        $this->backend->createAndPublish($this->type, $body);
+        $this->producer->publish($event->getMessage(), $this->routingKey);
     }
 }
