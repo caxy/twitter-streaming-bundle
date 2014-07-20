@@ -11,6 +11,7 @@ class FilterRepository extends EntityRepository
         $result = $this->getEntityManager()
             ->createQuery('SELECT t.phrase FROM BangpoundTwitterStreamingBundle:Track t WHERE t.isActive = true')
             ->getScalarResult();
+
         return array_map('current', $result);
     }
 
@@ -19,6 +20,7 @@ class FilterRepository extends EntityRepository
         $result = $this->getEntityManager()
             ->createQuery('SELECT t.west,t.south,t.east,t.north FROM BangpoundTwitterStreamingBundle:Location t WHERE t.isActive = true')
             ->getScalarResult();
+
         return array_map('array_values', $result);
     }
 
@@ -27,6 +29,7 @@ class FilterRepository extends EntityRepository
         $result = $this->getEntityManager()
             ->createQuery('SELECT t.userId FROM BangpoundTwitterStreamingBundle:Follow t WHERE t.isActive = true')
             ->getScalarResult();
+
         return array_map('current', $result);
     }
 }

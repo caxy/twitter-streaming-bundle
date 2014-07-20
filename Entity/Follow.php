@@ -35,11 +35,10 @@ class Follow implements FilterInterface
      */
     private $isActive = true;
 
-
     /**
      * Set isActive
      *
-     * @param boolean $isActive
+     * @param  boolean $isActive
      * @return Track
      */
     public function setIsActive($isActive)
@@ -59,7 +58,6 @@ class Follow implements FilterInterface
         return $this->isActive;
     }
 
-
     /**
      * Get id
      *
@@ -73,7 +71,7 @@ class Follow implements FilterInterface
     /**
      * Set screenName
      *
-     * @param string $userId
+     * @param  string $userId
      * @return Follow
      */
     public function setUserId($userId)

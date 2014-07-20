@@ -56,11 +56,10 @@ class Location implements FilterInterface
      */
     private $isActive = true;
 
-
     /**
      * Set isActive
      *
-     * @param boolean $isActive
+     * @param  boolean $isActive
      * @return Track
      */
     public function setIsActive($isActive)
@@ -93,7 +92,7 @@ class Location implements FilterInterface
     /**
      * Set south
      *
-     * @param float $south
+     * @param  float    $south
      * @return Location
      */
     public function setSouth($south)
@@ -116,7 +115,7 @@ class Location implements FilterInterface
     /**
      * Set west
      *
-     * @param float $west
+     * @param  float    $west
      * @return Location
      */
     public function setWest($west)
@@ -139,7 +138,7 @@ class Location implements FilterInterface
     /**
      * Set north
      *
-     * @param float $north
+     * @param  float    $north
      * @return Location
      */
     public function setNorth($north)
@@ -162,7 +161,7 @@ class Location implements FilterInterface
     /**
      * Set east
      *
-     * @param float $east
+     * @param  float    $east
      * @return Location
      */
     public function setEast($east)

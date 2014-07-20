@@ -35,11 +35,10 @@ class Track implements FilterInterface
      */
     private $isActive = true;
 
-
     /**
      * Set isActive
      *
-     * @param boolean $isActive
+     * @param  boolean $isActive
      * @return Track
      */
     public function setIsActive($isActive)
@@ -72,7 +71,7 @@ class Track implements FilterInterface
     /**
      * Set phrase
      *
-     * @param string $phrase
+     * @param  string $phrase
      * @return Track
      */
     public function setPhrase($phrase)
