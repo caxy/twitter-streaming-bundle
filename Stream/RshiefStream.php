@@ -9,7 +9,7 @@ class RshiefStream extends BasicStream
 
     public function checkFilterPredicates()
     {
-        /* @var Bangpound\Bundle\TwitterStreamingBundle\Entity\FilterRepository $repository */
+        /* @var \Bangpound\Bundle\TwitterStreamingBundle\Entity\FilterRepository $repository */
         $repository = $this->em->getRepository('BangpoundTwitterStreamingBundle:Track');
 
         $track = $repository->findActiveTracks();
