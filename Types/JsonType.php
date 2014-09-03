@@ -11,7 +11,7 @@
 
 namespace Bangpound\Bundle\TwitterStreamingBundle\Types;
 
-use Sonata\Doctrine\Types\JsonType as BaseType;
+use Doctrine\DBAL\Types\JsonArrayType as BaseType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 
 /**
