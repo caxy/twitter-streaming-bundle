@@ -141,6 +141,8 @@ class PhirehoseConsumer implements ConsumerInterface, LoggerAwareInterface
 
         $entry->setLang($data['lang']);
 
+        $entry->setExtra('filter_level', $data['filter_level']);
+
         $this->objectManager->persist($entry);
 
         return ConsumerInterface::MSG_ACK;
