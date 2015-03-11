@@ -8,7 +8,8 @@
     },
     "require": {
         "guzzlehttp/guzzle": "~5.2",
-        "guzzlehttp/oauth-subscriber": "~0.2"
+        "guzzlehttp/oauth-subscriber": "~0.2",
+        "guzzlehttp/retry-subscriber": "~2.0"
     },
     "license": "MIT",
     "authors": [
